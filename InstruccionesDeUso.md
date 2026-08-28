@@ -34,9 +34,7 @@ VetCare está configurado para trabajar con **Java 21**, por lo que es necesario
 
 Para comprobar que Java está instalado correctamente, abre la terminal de Visual Studio Code y ejecuta:
 
-## 3. 🧩 Extensión de Java para VS Code
-
-## 🧩 Extensión de Java para Visual Studio Code
+## 3. 🧩 Extensión de Java para Visual Studio Code
 
 Además de tener **Visual Studio Code** instalado, necesitarás una extensión que nos permitirá trabajar correctamente con Java.
 
@@ -57,3 +55,50 @@ Es muy fácil. Solo sigue estos pasos:
 
 > 💡 **Consejo:** Asegúrate de instalar la extensión oficial de **Microsoft** llamada **Extension Pack for Java**.
 
+
+
+# 📥 ¡Ahora vamos a importar VetCare!
+
+# 📥 Importar el proyecto
+
+¡Ya tienes todos los requerimientos listos! 🎉 Ahora vamos a importar **VetCare** en Visual Studio Code.
+
+### 1. 🐙 Accede a GitHub
+
+Asegúrate de haber iniciado sesión en **GitHub** y de utilizar la misma cuenta que configuraste en Visual Studio Code.
+
+### 2. 💻 Abre Visual Studio Code
+
+Abre **Visual Studio Code** y utiliza el siguiente atajo:
+
+```text
+Ctrl + Shift + P
+
+
+3. 📥 Clona el repositorio
+
+En el buscador escribe:
+
+Git: Clone
+
+Selecciona Git: Clone.
+
+Cuando VS Code solicite la dirección del repositorio, utiliza:
+
+https://github.com/Krlos003/VetCare.git
+
+4. 📂 Selecciona dónde guardar el proyecto
+
+Selecciona la carpeta de tu computador donde deseas guardar VetCare.
+
+VS Code comenzará a descargar el proyecto automáticamente.
+
+5. 🚀 Abre VetCare
+
+Cuando finalice la descarga, Visual Studio Code te preguntará si deseas abrir el proyecto.
+
+Selecciona:
+
+Open
+
+🎉 ¡Listo! VetCare ya está disponible en tu computador y puedes comenzar a trabajar.🐾
