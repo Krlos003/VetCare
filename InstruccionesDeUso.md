@@ -59,46 +59,48 @@ Es muy fácil. Solo sigue estos pasos:
 
 # 📥 ¡Ahora vamos a importar VetCare!
 
-# 📥 Importar el proyecto
+¡Ya tienes todo preparado! 🎉
 
-¡Ya tienes todos los requerimientos listos! 🎉 Ahora vamos a importar **VetCare** en Visual Studio Code.
+Ahora vamos a **copiar el repositorio de VetCare y descargarlo en tu computador** para que puedas comenzar a trabajar con el proyecto.
 
-### 1. 🐙 Accede a GitHub
+## 🐙 1. Copia el repositorio
 
-Asegúrate de haber iniciado sesión en **GitHub** y de utilizar la misma cuenta que configuraste en Visual Studio Code.
+Utilizaremos el siguiente enlace:
 
-### 2. 💻 Abre Visual Studio Code
+**https://github.com/Krlos003/VetCare.git**
 
-Abre **Visual Studio Code** y utiliza el siguiente atajo:
+📋 Copia el enlace, ya que lo necesitaremos en el siguiente paso.
 
-```text
-Ctrl + Shift + P
+## 💻 2. Abre Visual Studio Code
 
+Abre **Visual Studio Code** y presiona:
 
-3. 📥 Clona el repositorio
+**Ctrl + Shift + P**
 
-En el buscador escribe:
+Esto abrirá la **Command Palette**.
 
-Git: Clone
+## 📥 3. Clona el repositorio
 
-Selecciona Git: Clone.
+En la barra de búsqueda escribe:
 
-Cuando VS Code solicite la dirección del repositorio, utiliza:
+**Git: Clone**
 
-https://github.com/Krlos003/VetCare.git
+Selecciona la opción **Git: Clone**.
 
-4. 📂 Selecciona dónde guardar el proyecto
+Cuando VS Code solicite la dirección del repositorio, pega el siguiente enlace:
 
-Selecciona la carpeta de tu computador donde deseas guardar VetCare.
+**https://github.com/Krlos003/VetCare.git**
 
-VS Code comenzará a descargar el proyecto automáticamente.
+## 📂 4. Elige dónde guardar VetCare
 
-5. 🚀 Abre VetCare
+Selecciona la carpeta de tu computador donde deseas guardar el proyecto.
 
-Cuando finalice la descarga, Visual Studio Code te preguntará si deseas abrir el proyecto.
+Visual Studio Code comenzará a descargar el repositorio automáticamente.
 
-Selecciona:
+## 🚀 5. ¡Abre el proyecto!
 
-Open
+Cuando termine la descarga, VS Code te preguntará si deseas abrir el proyecto.
 
-🎉 ¡Listo! VetCare ya está disponible en tu computador y puedes comenzar a trabajar.🐾
+Selecciona **Open**.
+
+🎉 **¡Listo! Ya tienes VetCare en tu computador y estás preparado para comenzar a trabajar. 🐾**
