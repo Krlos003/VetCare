@@ -49,7 +49,15 @@ public class SistemaVentas {
                     inventario.add(producto);
                     System.out.println("Producto registrado con éxito: " + producto);
                     break;
-                case 4 : System.out.println("proceso consultar productos");
+
+                case 4 : System.out.println("Catalogo de productos:");
+                if (inventario.isEmpty()) {
+                    System.out.println("No hay productos registrados.");
+                } else {
+                    for (Producto p : inventario) {
+                        System.out.println(p);
+                    }
+                    }
                     break;
                 case 5 : System.out.println("Volviendo al menú principal...");
                 default : System.out.println("Opción inválida. Por favor, seleccione una opción");
