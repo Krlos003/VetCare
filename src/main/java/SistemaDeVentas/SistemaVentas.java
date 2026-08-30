@@ -24,29 +24,30 @@ public class SistemaVentas {
 
         if (scanner.hasNextInt()) {
             opcion = scanner.nextInt();
+            scanner.nextLine();
             
             switch (opcion) {
-                case 1 : 
-                System.out.println("REGISTRO DE PRODUCTO");
-
-                System.out.print("Ingrese el nombre del producto: ");
-                String nombre = scanner.nextLine();
-
-                System.out.print("Ingrese el precio del producto: ");
-                double precio = scanner.nextDouble();
-
-                System.out.print("Ingrese el stock del producto: ");
-                int stock = scanner.nextInt();
-
-                Producto producto = new Producto(contadorId, nombre, precio, stock);
-                inventario.add(producto);
-                System.out.println("Producto registrado con éxito: " + producto);
-
+                case 1 : System.out.println("proceso registrar ventas");
                     break;
 
                 case 2 :System.out.println("proceso consultar ventas");
                     break; 
-                case 3 : System.out.println("proceso registrar producto");
+                case 3 : System.out.println("REGISTRO DE PRODUCTO");
+
+                    System.out.print("Ingrese el nombre del producto: ");
+                    String nombre = scanner.nextLine();
+
+                    System.out.print("Ingrese el precio del producto: ");
+                    double precio = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    System.out.print("Ingrese el stock del producto: ");
+                    int stock = scanner.nextInt();
+                    
+
+                    Producto producto = new Producto(contadorId, nombre, precio, stock);
+                    inventario.add(producto);
+                    System.out.println("Producto registrado con éxito: " + producto);
                     break;
                 case 4 : System.out.println("proceso consultar productos");
                     break;

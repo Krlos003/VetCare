@@ -2,6 +2,8 @@ package com.vetcare;
 
 import java.util.Scanner;
 
+import sistemadeventas.SistemaVentas;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -21,12 +23,12 @@ public class Main {
                 System.out.println();
 
                 switch (opcion) {
-                    case 1 -> System.out.println("ACA LLAMAMOS LA CLASE DE GESTION");
-                    case 2 -> System.out.println("ACA LLAMAMOS LA CLASE DE VENTAS");
-                    case 3 -> System.out.println("ACA LLAMAMOS LA CLASE DE ATENCION MEDICA");
-                    case 4 -> System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA");
-                    case 5 -> System.out.println("Saliendo del sistema...");
-                    default -> System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                    case 1 : System.out.println("ACA LLAMAMOS LA CLASE DE GESTION");
+                    case 2 : SistemaVentas.mostrarMenu();
+                    case 3 : System.out.println("ACA LLAMAMOS LA CLASE DE ATENCION MEDICA");
+                    case 4 : System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA");
+                    case 5 : System.out.println("Saliendo del sistema...");
+                    default : System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
                 
                 }
             } else {
