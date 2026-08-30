@@ -1,4 +1,4 @@
-package sistemadeventas;
+package SistemaDeVentas;
 
 public class Producto {
 
