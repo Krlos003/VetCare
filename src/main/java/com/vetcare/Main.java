@@ -1,8 +1,7 @@
 package com.vetcare;
 
 import java.util.Scanner;
-
-import sistemadeventas.SistemaVentas;
+import SistemaDeVentas.SistemaVentas;
 
 public class Main {
     public static void main(String[] args) {
