@@ -2,6 +2,7 @@ package com.vetcare;
 
 import java.util.Scanner;
 import SistemaDeVentas.SistemaVentas;
+import com.vetcare.SistemaMedico.MenuMedico;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +25,9 @@ public class Main {
                 switch (opcion) {
                     case 1 : System.out.println("ACA LLAMAMOS LA CLASE DE GESTION");
                     case 2 : SistemaVentas.mostrarMenu();
-                    case 3 : System.out.println("ACA LLAMAMOS LA CLASE DE ATENCION MEDICA");
+                    case 3 : MenuMedico menuMedico = new MenuMedico();
+                    menuMedico.mostrarMenu();
+                    break;
                     case 4 : System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA");
                     case 5 : System.out.println("Saliendo del sistema...");
                     default : System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
