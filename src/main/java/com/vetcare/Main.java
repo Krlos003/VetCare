@@ -2,13 +2,12 @@ package com.vetcare;
 
 import java.util.Scanner;
 import SistemaDeVentas.SistemaVentas;
-import com.vetcare.SistemaMedico.MenuMedico;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
-    
+
         do {
             System.out.println("Bienvenido al sistema de gestión de mascotas");
             System.out.println("1. Gestion de Clientes y Mascotas");
@@ -23,15 +22,19 @@ public class Main {
                 System.out.println();
 
                 switch (opcion) {
-                    case 1 : System.out.println("ACA LLAMAMOS LA CLASE DE GESTION");
-                    case 2 : SistemaVentas.mostrarMenu();
-                    case 3 : MenuMedico menuMedico = new MenuMedico();
-                    menuMedico.mostrarMenu();
-                    break;
-                    case 4 : System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA");
-                    case 5 : System.out.println("Saliendo del sistema...");
-                    default : System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
-                
+                    case 1:
+                        System.out.println("ACA LLAMAMOS LA CLASE DE GESTION");
+                    case 2:
+                        SistemaVentas.mostrarMenu();
+                    case 3:
+                        System.out.println("ACA LLAMAMOS LA CLASE DE ATENCION MEDICA");
+                    case 4:
+                        System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA");
+                    case 5:
+                        System.out.println("Saliendo del sistema...");
+                    default:
+                        System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+
                 }
             } else {
                 System.out.println("Entrada inválida. Por favor, ingrese un número.");
@@ -40,5 +43,5 @@ public class Main {
         } while (opcion != 5);
 
         scanner.close();
-        }
+    }
 }
