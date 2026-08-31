@@ -1,4 +1,4 @@
-package SistemaDeVentas;
+package ServicioDeEstetica;
 
 import java.util.Scanner;
 

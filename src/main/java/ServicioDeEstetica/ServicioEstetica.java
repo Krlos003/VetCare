@@ -1,16 +1,16 @@
-package SistemaDeVentas;
+package ServicioDeEstetica;
+
+import SistemaDeVentas.Servicio;
 
 /**
  * Módulo del Estudiante 4: Peluquería y Estética
  * Hereda de la clase base Servicio.
  */
 public class ServicioEstetica extends Servicio {
-    // Atributos privados (Encapsulamiento)
     private boolean incluyeBano;
     private boolean incluyeCorte;
-    private String tamanoMascota; // Pequeño, Mediano, Grande
+    private String tamanoMascota;
 
-    // Constructor
     public ServicioEstetica(double precioBase, boolean incluyeBano, boolean incluyeCorte, String tamanoMascota) {
         super("Peluquería y Estética", precioBase);
         this.incluyeBano = incluyeBano;
@@ -18,7 +18,6 @@ public class ServicioEstetica extends Servicio {
         this.tamanoMascota = tamanoMascota;
     }
 
-    // Encapsulamiento: Getters y Setters
     public boolean isIncluyeBano() {
         return incluyeBano;
     }
@@ -43,12 +42,10 @@ public class ServicioEstetica extends Servicio {
         this.tamanoMascota = tamanoMascota;
     }
 
-    // Polimorfismo: Sobreescritura del método para calcular el costo total
     @Override
     public double calcularPrecioTotal() {
         double total = getPrecioBase();
 
-        // Lógica de baños y cortes
         if (incluyeBano) {
             total += 15000;
         }
@@ -56,7 +53,6 @@ public class ServicioEstetica extends Servicio {
             total += 20000;
         }
 
-        // Lógica de recargos por tamaño
         if (tamanoMascota.equalsIgnoreCase("Mediano")) {
             total += 10000;
         } else if (tamanoMascota.equalsIgnoreCase("Grande")) {
