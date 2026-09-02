@@ -35,6 +35,20 @@ public class SistemaVentas {
                     case 3:
                         System.out.println("REGISTRO DE PRODUCTO");
 
+                        System.out.println("Seleccione la categoría del producto:");
+                        System.out.println("1. Medicamento");
+                        System.out.println("2. Alimento");
+                        System.out.println("3. Ropa y Accesorios");
+                        System.out.println("4. Higiene y Aseo");
+                        System.out.print("Opción: ");
+                        int tipoOpcion = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (tipoOpcion < 1 || tipoOpcion > 4) {
+                            System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
+                            break;
+                        }
+
                         System.out.print("Ingrese el nombre del producto: ");
                         String nombre = scanner.nextLine();
 
@@ -46,8 +60,33 @@ public class SistemaVentas {
                         int stock = scanner.nextInt();
                         scanner.nextLine();
 
+                        System.out.print("Ingrese la ubicación del producto: ");
+                        String ubicacion = scanner.nextLine();
 
-                        Producto producto = new Producto(nombre, precio, stock);
+                        System.out.print("Ingrese el contenido del producto: ");
+                        double contenido = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        System.out.print("Ingrese la unidad de medida del producto: ");
+                        String simboloUnidad = scanner.nextLine();
+                        Producto.UnidadMedida unidadMedida = Producto.UnidadMedida.valueOf(simboloUnidad.toUpperCase());
+
+                        Producto producto = null;
+                        switch (tipoOpcion) {
+                            case 1:
+                                producto = new Medicamento(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                                break;
+                            case 2:
+                                producto = new Alimentos(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                                break;
+                            case 3:
+                                producto = new RopaAccesorios(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                                break;
+                            case 4:
+                                producto = new HigieneAseo(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                                break;
+                        }
+
                         inventario.add(producto);
                         producto.guardarEnBD();
                         System.out.println("Producto registrado con éxito: " + producto);
