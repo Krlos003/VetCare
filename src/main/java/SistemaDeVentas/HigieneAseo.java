@@ -2,37 +2,37 @@ package SistemaDeVentas;
 
 public class HigieneAseo extends Producto {
 
-    private String Especie;
-    private String Marca;
+    private String especie;
+    private String marca;
 
 
-public HigieneAseo(String nombre, double precio, int stock, String ubicacion, double contenido, UnidadMedida unidadMedida, String Especie, String Marca) {
+public HigieneAseo(String nombre, double precio, int stock, String ubicacion, double contenido, UnidadMedida unidadMedida, String especie, String marca) {
         super(nombre, precio, stock, "Higiene y Aseo", ubicacion, contenido, unidadMedida);
-        this.Especie = Especie;
-        this.Marca = Marca;
+        this.especie = especie;
+        this.marca = marca;
     }
 
     public String getEspecie() {
-        return Especie;
+        return especie;
     }
 
     public void setEspecie(String especie) {
-        Especie = especie;
+        this.especie = especie;
     }
 
     public String getMarca() {
-        return Marca;
+        return marca;
     }
 
     public void setMarca(String marca) {
-        Marca = marca;
+        this.marca = marca;
     }
 
     @Override
     public String toString() {
         return super.toString() +
-                ", Especie='" + Especie + '\'' +
-                ", Marca='" + Marca + '\'' +
+                ", Especie='" + especie + '\'' +
+                ", Marca='" + marca + '\'' +
                 '}';
     }
 }

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 public abstract class Producto {
 
-    private static final String URL_BD = "jdbc:postgresql://db.tatezklzxsvgqnzgbzzq.supabase.co:5432/postgres?user=postgres&password=Proyecto12345";
+    private static final String URL_BD = "jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:5432/postgres?user=postgres.tatezklzxsvgqnzgbzzq&password=Proyecto12345";
 
     public enum UnidadMedida {
         ML("ml"),
@@ -51,7 +51,7 @@ public abstract class Producto {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
-        this.tipo = "prueba";
+        this.tipo = tipo;
         this.ubicacion = ubicacion;
         this.contenido = contenido;
         this.unidadMedida = unidadMedida;
@@ -78,6 +78,7 @@ public abstract class Producto {
             }
         } catch (SQLException e) {
             System.out.println("Error al guardar en Supabase: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
         return false;

@@ -2,6 +2,7 @@ package SistemaDeVentas;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class SistemaVentas {
 
@@ -73,18 +74,56 @@ public class SistemaVentas {
 
                         Producto producto = null;
                         switch (tipoOpcion) {
-                            case 1:
-                                producto = new Medicamento(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                            case 1:{
+
+                                System.out.print("Ingrese el laboratorio del medicamento: ");
+                                String laboratorio = scanner.nextLine();
+
+                                System.out.print("Ingrese la fecha de vencimiento del medicamento (YYYY-MM-DD): ");
+                                String fechaVencimientoStr = scanner.nextLine();
+                                LocalDate fechaVencimiento = LocalDate.parse(fechaVencimientoStr);
+
+                                System.out.print("¿Requiere receta? (true/false): ");
+                                boolean requiereReceta = scanner.nextBoolean();
+
+                                producto = new Medicamento(nombre, precio, stock, ubicacion, contenido, unidadMedida, laboratorio, fechaVencimiento, requiereReceta);
                                 break;
-                            case 2:
-                                producto = new Alimentos(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                            }
+                            case 2:{
+
+                                System.out.print("Ingrese la especie de la mascota: ");
+                                String especie = scanner.nextLine();
+
+                                System.out.print("Ingrese la edad de la mascota: "); 
+                                String edad = scanner.nextLine();
+
+                                producto = new Alimentos(nombre, precio, stock, ubicacion, contenido, unidadMedida, especie, edad);
                                 break;
-                            case 3:
-                                producto = new RopaAccesorios(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                            }
+                            case 3:{
+
+                                System.out.print("Ingrese la talla del producto: ");
+                                String talla = scanner.nextLine();
+
+                                System.out.print("Ingrese el género del producto: ");
+                                String genero = scanner.nextLine();
+
+                                System.out.print("Ingrese la especie del producto: ");
+                                String especie = scanner.nextLine();
+
+                                producto = new RopaAccesorios(nombre, precio, stock, ubicacion, contenido, unidadMedida, talla, genero, especie);
                                 break;
-                            case 4:
-                                producto = new HigieneAseo(nombre, precio, stock, ubicacion, contenido, unidadMedida);
+                            }
+                            case 4:{
+                                System.out.print("Ingrese la especie del producto: ");
+                                String especie = scanner.nextLine();
+
+                                System.out.print("Ingrese la marca del producto: ");
+                                String marca = scanner.nextLine();
+
+                                producto = new HigieneAseo(nombre, precio, stock, ubicacion, contenido, unidadMedida, especie, marca);
                                 break;
+                            }
                         }
 
                         inventario.add(producto);
