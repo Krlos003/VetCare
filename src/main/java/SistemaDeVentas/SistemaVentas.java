@@ -1,12 +1,21 @@
 package SistemaDeVentas;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
 
 public class SistemaVentas {
 
-    private static ArrayList<Producto> inventario = new ArrayList<>();
+    private static Inventario inventario = new Inventario();
+
+    private static String recortarTexto(String texto, int longitudMaxima) {
+        if (texto == null) {
+            return "";
+        }
+        return texto.length() > longitudMaxima
+                ? texto.substring(0, longitudMaxima - 3) + "..."
+                : texto;
+    }
 
     public static void mostrarMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -64,11 +73,11 @@ public class SistemaVentas {
                         System.out.print("Ingrese la ubicación del producto: ");
                         String ubicacion = scanner.nextLine();
 
-                        System.out.print("Ingrese el contenido del producto: ");
+                        System.out.print("Ingrese el cantidad del producto: (sin unidad de) ");
                         double contenido = scanner.nextDouble();
                         scanner.nextLine();
 
-                        System.out.print("Ingrese la unidad de medida del producto: ");
+                        System.out.print("Ingrese la unidad de medida del producto: (ml/lt/g/lb/kg/und) ");
                         String simboloUnidad = scanner.nextLine();
                         Producto.UnidadMedida unidadMedida = Producto.UnidadMedida.valueOf(simboloUnidad.toUpperCase());
 
@@ -91,10 +100,10 @@ public class SistemaVentas {
                             }
                             case 2:{
 
-                                System.out.print("Ingrese la especie de la mascota: ");
+                                System.out.print("Ingrese la especie de la mascota: (perro/gato/otros) ");
                                 String especie = scanner.nextLine();
 
-                                System.out.print("Ingrese la edad de la mascota: "); 
+                                System.out.print("Ingrese la edad de la mascota: (cachorro/adulto/anciano) "); 
                                 String edad = scanner.nextLine();
 
                                 producto = new Alimentos(nombre, precio, stock, ubicacion, contenido, unidadMedida, especie, edad);
@@ -102,20 +111,20 @@ public class SistemaVentas {
                             }
                             case 3:{
 
-                                System.out.print("Ingrese la talla del producto: ");
+                                System.out.print("Ingrese la talla del producto: (XS/S/M/L/XL) ");
                                 String talla = scanner.nextLine();
 
-                                System.out.print("Ingrese el género del producto: ");
+                                System.out.print("Ingrese el género del producto: (macho/hembra) ");
                                 String genero = scanner.nextLine();
 
-                                System.out.print("Ingrese la especie del producto: ");
+                                System.out.print("Ingrese la especie del producto: (perro/gato/otros) ");
                                 String especie = scanner.nextLine();
 
                                 producto = new RopaAccesorios(nombre, precio, stock, ubicacion, contenido, unidadMedida, talla, genero, especie);
                                 break;
                             }
                             case 4:{
-                                System.out.print("Ingrese la especie del producto: ");
+                                System.out.print("Ingrese la especie del producto: (perro/gato/otros) ");
                                 String especie = scanner.nextLine();
 
                                 System.out.print("Ingrese la marca del producto: ");
@@ -126,23 +135,43 @@ public class SistemaVentas {
                             }
                         }
 
-                        inventario.add(producto);
                         producto.guardarEnBD();
                         System.out.println("Producto registrado con éxito: " + producto);
                         break;
                     case 4:
-                        System.out.println("Catalogo de productos:");
+                    System.out.println("\n=========================================================================================");
+                    System.out.println("                                CATÁLOGO DE PRODUCTOS                                    ");
+                    System.out.println("=========================================================================================");
 
-                        Inventario inventarioBD = new Inventario();
-                        ArrayList<Producto> productosBD = inventarioBD.obtenerTodos();
-                        if (productosBD.isEmpty()) {
-                            System.out.println("No hay productos registrados.");
-                        } else {
-                            for (Producto p : productosBD) {
-                                System.out.println(p);
-                            }
+                    List<Producto> listaBD = inventario.obtenerProductosDesdeBD();
+
+                    if (listaBD.isEmpty()) {
+                        System.out.println("No hay productos registrados en la base de datos.");
+                    } else {
+                        // Cabecera de la tabla con anchos fijos
+                        System.out.println(String.format("%-4s | %-28s | %-16s | %-10s | %-6s | %-12s", 
+                                "N°", "NOMBRE", "CATEGORÍA", "PRECIO", "STOCK", "UBICACIÓN"));
+                        System.out.println("-----------------------------------------------------------------------------------------");
+
+                        // Filas formateadas
+                        for (int i = 0; i < listaBD.size(); i++) {
+                            Producto p = listaBD.get(i);
+                            String categoria = p.getClass().getSimpleName();
+
+                            System.out.println(String.format("%-4d | %-28s | %-16s | $%-9.2f | %-6d | %-12s",
+                                    (i + 1),
+                                    recortarTexto(p.getNombre(), 28),
+                                    categoria,
+                                    p.getPrecio(),
+                                    p.getStock(),
+                                    p.getUbicacion()));
                         }
-                        break;
+        
+
+                        System.out.println("-----------------------------------------------------------------------------------------");
+                        System.out.println("Total de productos en catálogo: " + listaBD.size());
+                    }
+                    break;
                     case 5:
                         System.out.println("Volviendo al menú principal...");
                         break;
