@@ -1,0 +1,30 @@
+public class cliente {
+    private string nombre;
+    private string telefono;
+
+public cliente(string nombre, string telefono) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+    }
+
+   public string getnombre()
+return nombre;
+
+public void setnombre(string nombre)
+if (nombre == null || nombre.trim().isEmpty())
+    throw new illegalargumentexception("el nombre no puede estar vacio")
+
+this.nombre = nombre;
+public string gettelefono()
+return telefono;
+
+public void settelefono(string telefono)
+if (telefono == null || telefono.trim().isEmpty())
+    throw new illegalargumentexception("el telefono no puede estar vacio")
+
+this.telefono = telefono;
+
+public string tosting()
+return "cliente vetcare = nombre:" + nombre +" telefono:" + telefono; 
+
+}
