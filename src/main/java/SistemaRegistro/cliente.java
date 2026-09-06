@@ -3,10 +3,12 @@ package SistemaRegistro;
 public class cliente {
     private String nombre;
     private String telefono;
+    private String Documento;
 
-    public cliente(String nombre, String telefono) {
+    public cliente(String nombre, String telefono, String Documento) {
         this.nombre = nombre;
         this.telefono = telefono;
+        this.Documento = Documento;
     }
 
     public String getnombre() {
@@ -31,8 +33,19 @@ public class cliente {
         this.telefono = telefono;
     }
 
+    public String getDocumento() {
+        return Documento;
+    }
+
+    public void setDocumento(String Documento) {
+        if (Documento == null || Documento.trim().isEmpty()) {
+            throw new IllegalArgumentException("el documento no puede estar vacio");
+        }
+        this.Documento = Documento;
+    }
+
     @Override
     public String toString() {
-        return "cliente vetcare = nombre:" + nombre + " telefono:" + telefono;
+        return "cliente vetcare = nombre:" + nombre + " telefono:" + telefono + " documento:" + Documento;
     }
 }

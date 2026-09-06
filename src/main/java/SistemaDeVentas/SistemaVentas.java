@@ -1,5 +1,6 @@
 package SistemaDeVentas;
 
+import SistemaRegistro.GestionClientesBD;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -153,7 +154,7 @@ public class SistemaVentas {
                                 "N°", "NOMBRE", "CATEGORÍA", "PRECIO", "STOCK", "UBICACIÓN"));
                         System.out.println("-----------------------------------------------------------------------------------------");
 
-                        // Filas formateadas
+
                         for (int i = 0; i < listaBD.size(); i++) {
                             Producto p = listaBD.get(i);
                             String categoria = p.getClass().getSimpleName();

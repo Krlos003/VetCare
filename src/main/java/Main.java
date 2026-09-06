@@ -35,7 +35,7 @@ public class Main {
                     case 1 : GestionClientesBD.mostrarMenu(conn, scanner); break;
                     case 2 : SistemaVentas.mostrarMenu(); break;
                     case 3 : System.out.println("ACA LLAMAMOS LA CLASE DE ATENCION MEDICA"); break;
-                    case 4 : System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA"); break;
+                    case 4 : mostrarMenuEstetica(conn, scanner); break;
                     case 5 : System.out.println("Saliendo del sistema..."); break;
                     default : System.out.println("Opción inválida. Por favor, seleccione una opción válida."); break;
                 
@@ -48,5 +48,15 @@ public class Main {
 
         scanner.close();
         } 
+
+    private static void mostrarMenuEstetica(Connection conn, Scanner scanner) {
+        try {
+            Class<?> clase = Class.forName("SistemaDeEstetica.SistemaDeEstetica");
+            clase.getMethod("mostrarMenu", Connection.class, Scanner.class)
+                    .invoke(null, conn, scanner);
+        } catch (ReflectiveOperationException e) {
+            System.out.println("El módulo de estética no está disponible.");
+        }
+    }
 
     }

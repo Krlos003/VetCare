@@ -1,4 +1,3 @@
-
 package SistemaRegistro;
 
 import java.sql.Connection;
@@ -34,29 +33,33 @@ public class GestionClientesBD {
         }
 
         System.out.println("\n--- REGISTRO DE NUEVO CLIENTE ---");
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
+        System.out.print("Documento de identidad (Cédula/DNI): ");
+        String documento = scanner.nextLine().trim();
+
+        System.out.print("Nombre completo: ");
+        String nombre = scanner.nextLine().trim();
         
         System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
+        String telefono = scanner.nextLine().trim();
         
         System.out.print("Email: ");
-        String email = scanner.nextLine();
+        String email = scanner.nextLine().trim();
         
         System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
+        String direccion = scanner.nextLine().trim();
 
-        String sql = "INSERT INTO clientes (nombre, telefono, email, direccion) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO clientes (documento, nombre, telefono, email, direccion) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, nombre);
-            pstmt.setString(2, telefono);
-            pstmt.setString(3, email);
-            pstmt.setString(4, direccion);
+            pstmt.setString(1, documento);
+            pstmt.setString(2, nombre);
+            pstmt.setString(3, telefono);
+            pstmt.setString(4, email);
+            pstmt.setString(5, direccion);
 
             int filasAfectadas = pstmt.executeUpdate();
             if (filasAfectadas > 0) {
-                System.out.println(" Cliente guardado con éxito en Supabase.");
+                System.out.println(" Client guardado con éxito. Doc: " + documento);
             }
         } catch (SQLException e) {
             System.err.println(" Error al guardar en la BD: " + e.getMessage());
@@ -73,32 +76,33 @@ public class GestionClientesBD {
         
         consultarClientes(conn);
         
-        System.out.print("\nIngrese el ID del dueño (cliente): ");
-        long clienteId = Long.parseLong(scanner.nextLine());
+        System.out.print("\nIngrese el Documento del dueño (cliente): ");
+        String clienteDocumento = scanner.nextLine().trim();
 
         System.out.print("Nombre de la mascota: ");
-        String nombre = scanner.nextLine();
+        String nombre = scanner.nextLine().trim();
 
         System.out.print("Especie (ej. Perro, Gato): ");
-        String especie = scanner.nextLine();
+        String especie = scanner.nextLine().trim();
 
         System.out.print("Raza: ");
-        String raza = scanner.nextLine();
+        String raza = scanner.nextLine().trim();
 
         System.out.print("Edad: ");
-        String edad = scanner.nextLine();
+        String edad = scanner.nextLine().trim();
+        
 
-        String sql = "INSERT INTO mascotas (nombre, especie, raza, edad, cliente_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO mascotas (nombre, especie, raza, edad, cliente_documento) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
             pstmt.setString(2, especie);
             pstmt.setString(3, raza);
             pstmt.setString(4, edad);
-            pstmt.setLong(5, clienteId);
+            pstmt.setString(5, clienteDocumento);
 
             pstmt.executeUpdate();
-            System.out.println(" Mascota registrada exitosamente y vinculada al cliente ID: " + clienteId);
+            System.out.println(" Mascota registrada exitosamente y vinculada al cliente Doc: " + clienteDocumento);
         } catch (SQLException e) {
             System.err.println(" Error al registrar la mascota: " + e.getMessage());
         }
@@ -110,7 +114,8 @@ public class GestionClientesBD {
             return;
         }
 
-        String sql = "SELECT id, nombre, telefono, email, direccion FROM clientes ORDER BY id ASC";
+        // Ya no consultamos 'id', la clave principal es 'documento'
+        String sql = "SELECT documento, nombre, telefono, email, direccion FROM clientes ORDER BY nombre ASC";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -120,13 +125,13 @@ public class GestionClientesBD {
 
             while (rs.next()) {
                 hayClientes = true;
-                long id = rs.getLong("id");
+                String documento = rs.getString("documento");
                 String nombre = rs.getString("nombre");
                 String telefono = rs.getString("telefono");
                 String email = rs.getString("email");
                 String direccion = rs.getString("direccion");
 
-                System.out.println("ID: " + id +
+                System.out.println("Doc/Cédula: " + documento +
                         " | Nombre: " + nombre +
                         " | Teléfono: " + (telefono != null ? telefono : "N/A") +
                         " | Email: " + (email != null ? email : "N/A") +
@@ -148,10 +153,11 @@ public class GestionClientesBD {
             return;
         }
 
-        String sql = "SELECT m.id, m.nombre AS mascota, m.especie, m.raza, m.edad, c.nombre AS dueno " +
-                "FROM mascotas m " +
-                "LEFT JOIN clientes c ON m.cliente_id = c.id " +
-                "ORDER BY m.id ASC";
+        String sql = "SELECT m.id AS mascota_id, m.nombre AS mascota, m.especie, m.raza, m.edad, " +
+                     "c.documento AS dueno_doc, c.nombre AS dueno_nombre " +
+                     "FROM mascotas m " +
+                     "LEFT JOIN clientes c ON m.cliente_documento = c.documento " +
+                     "ORDER BY m.id ASC";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -161,19 +167,20 @@ public class GestionClientesBD {
 
             while (rs.next()) {
                 hayMascotas = true;
-                long id = rs.getLong("id");
+                long mascotaId = rs.getLong("mascota_id");
                 String nombreMascota = rs.getString("mascota");
                 String especie = rs.getString("especie");
                 String raza = rs.getString("raza");
                 String edad = rs.getString("edad");
-                String dueno = rs.getString("dueno");
+                String duenoDoc = rs.getString("dueno_doc");
+                String duenoNombre = rs.getString("dueno_nombre");
 
-                System.out.println("ID: " + id +
+                System.out.println("ID Mascota: " + mascotaId +
                         " | Mascota: " + nombreMascota +
                         " | Especie: " + especie +
                         " | Raza: " + (raza != null ? raza : "N/A") +
                         " | Edad: " + edad + " años" +
-                        " | Dueño: " + (dueno != null ? dueno : "Sin dueño asignado"));
+                        " | Dueño: " + (duenoNombre != null ? duenoNombre + " (Doc: " + duenoDoc + ")" : "Sin dueño asignado"));
             }
 
             if (!hayMascotas) {
@@ -188,7 +195,7 @@ public class GestionClientesBD {
     public static void mostrarMenu(Connection conn, Scanner sc) {
         int opcion;
         do {
-            System.out.println("\n==Menu vetcare-registro==");
+            System.out.println("\n== Menu VetCare ==");
             System.out.println("1. Registrar Cliente");
             System.out.println("2. Registrar Mascota");
             System.out.println("3. Listar Clientes");
@@ -196,8 +203,11 @@ public class GestionClientesBD {
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             
-            opcion = sc.nextInt();
-            sc.nextLine(); 
+            try {
+                opcion = Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                opcion = -1;
+            }
 
             switch (opcion) {
                 case 1:
@@ -242,6 +252,6 @@ public class GestionClientesBD {
         } catch (SQLException e) {
             System.err.println("Error al cerrar la conexión: " + e.getMessage());
         }
-        
+        sc.close();
     }
 }

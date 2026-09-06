@@ -1,16 +1,23 @@
 package ServicioDeEstetica;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import SistemaRegistro.GestionClientesBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MenuEstetica {
-    private static final String ARCHIVO_HISTORIAL = "historial_estetica.dat";
-    private static List<CitaEstetica> historial = new ArrayList<>();
+
 
     public static void main(String[] args) {
-        cargarHistorial();
+        Connection conn = GestionClientesBD.obtenerConexion();
+        if (conn == null) {
+            System.out.println("No se pudo establecer conexión con la base de datos.");
+            return;
+        }   
+
+        
         Scanner scanner = new Scanner(System.in);
         int opcion;
 
@@ -28,17 +35,16 @@ public class MenuEstetica {
                 scanner.next();
             }
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar buffer
+            scanner.nextLine(); 
 
             switch (opcion) {
                 case 1:
-                    registrarCita(scanner);
+                    registrarCita(conn, scanner);
                     break;
                 case 2:
-                    mostrarHistorial();
+                    mostrarHistorialBD(conn);
                     break;
                 case 3:
-                    guardarHistorial();
                     System.out.println("\nSaliendo del módulo... ¡Datos guardados exitosamente!");
                     break;
                 default:
@@ -46,125 +52,204 @@ public class MenuEstetica {
             }
         } while (opcion != 3);
 
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al cerrar la conexión: " + e.getMessage());
+        }
+
         scanner.close();
     }
 
-    private static void registrarCita(Scanner scanner) {
+    private static void registrarCita(Connection conn, Scanner scanner) {
         System.out.println("\n---------------------------------------------");
         System.out.println("          REGISTRO DE NUEVA CITA");
         System.out.println("---------------------------------------------");
-        System.out.print("Nombre de la mascota: ");
-        String mascota = scanner.nextLine();
+        System.out.print("Doc/Cedula del dueño: ");
+        String documento = scanner.nextLine();
 
-        // Elección de tamaño con tarifas desglosadas
+        String sqlBuscarMascotas = "SELECT id, nombre, especie, raza FROM mascotas WHERE cliente_documento = ? Order by id asc";
+        boolean tieneMascotas = false;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlBuscarMascotas)) {
+            pstmt.setString(1, documento);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.isBeforeFirst()) {
+                    System.out.println("\n--- MASCOTAS REGISTRADAS DEL CLIENTE ---");;
+                    while (rs.next()) {
+                        tieneMascotas = true;
+                        int idMascota = rs.getInt("id");
+                        String nombreMascota = rs.getString("nombre");
+                        String especieMascota = rs.getString("especie");
+                        String razaMascota = rs.getString("raza");
+                        System.out.println(idMascota + ". " + nombreMascota + " (" + especieMascota + ", " + razaMascota + ")");
+                    }
+                }
+            }
+                
+        }catch (SQLException e) {
+                    System.out.println("Error al buscar mascotas: " + e.getMessage());
+                    return;
+        }            
+         
+        if (!tieneMascotas) {
+            System.out.println("No se encontraron mascotas registradas para este dueño.");
+            return;
+        }
+        
+        System.out.print("\nIngrese el ID de la mascota para la cita: ");
+        int idMascota = scanner.nextInt();
+        scanner.nextLine();
+
+        String sqlValidarMascota = "SELECT nombre, especie, raza FROM mascotas WHERE id = ? AND cliente_documento = ?";
+        String mascota = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlValidarMascota)) {
+            pstmt.setInt(1, idMascota);
+            pstmt.setString(2, documento);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    mascota = rs.getString("nombre");
+                    System.out.println("Mascota seleccionada: " + mascota);
+                } else {
+                    System.out.println("No se encontró una mascota con ese ID para el dueño proporcionado.");
+                    return;
+                }   
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al validar la mascota: " + e.getMessage());
+            return;
+        }
+
         System.out.println("\nSeleccione el tamaño de la mascota:");
-        System.out.println("1. Pequeño  (Recargo: $0)");
-        System.out.println("2. Mediano  (Recargo: $5,000)");
-        System.out.println("3. Grande   (Recargo: $10,000)");
-        System.out.print("Opción (1-3): ");
+        System.out.println("1. Pequeño Peludo (Recargo: $10,000)");
+        System.out.println("2. Mediano        (Recargo: $20,000)");
+        System.out.println("3. Grande         (Recargo: $50,000)");
+        System.out.println("4. Sin recargo    (Recargo: $0)");
+        System.out.print("Opción (1-4): ");
         int opcTamano = scanner.nextInt();
         scanner.nextLine();
 
-        String tamano = "Pequeño";
-        double recargoTamano = 0;
+        String tamano;
+        double recargoTamano;
 
-        if (opcTamano == 2) {
+        if (opcTamano == 1) {
+            tamano = "Pequeño Peludo";
+            recargoTamano = 10000;
+        } else if (opcTamano == 2) {
             tamano = "Mediano";
-            recargoTamano = 5000;
+            recargoTamano = 20000;
         } else if (opcTamano == 3) {
             tamano = "Grande";
-            recargoTamano = 10000;
+            recargoTamano = 50000;
+        } else {
+            tamano = "Sin recargo";
+            recargoTamano = 0;
         }
 
-        // Elección del tipo de servicio con precios visibles
         System.out.println("\nSeleccione el servicio a realizar:");
-        System.out.println("1. Solo Baño             (+$10,000)");
-        System.out.println("2. Solo Corte            (+$15,000)");
-        System.out.println("3. Baño y Corte Completo (+$25,000)");
+        System.out.println("1. Servicio Básico       (+$20,000)");
+        System.out.println("2. Servicio Avanzado     (+$30,000)");
+        System.out.println("3. Servicio Premium      (+$40,000)");
         System.out.print("Opción (1-3): ");
         int opcServicio = scanner.nextInt();
         scanner.nextLine();
 
-        boolean baño = false;
-        boolean corte = false;
+        boolean servicioBasico = false;
+        boolean servicioAvanzado = false;
+        boolean servicioPremium = false;
         double costoServicio = 0;
 
         switch (opcServicio) {
             case 1:
-                baño = true;
-                costoServicio = 10000;
+                servicioBasico = true;
+                costoServicio = 20000;
                 break;
             case 2:
-                corte = true;
-                costoServicio = 15000;
+                servicioAvanzado = true;
+                costoServicio = 30000;
                 break;
             case 3:
-                baño = true;
-                corte = true;
-                costoServicio = 25000;
-                break;
-            default:
-                System.out.println("Opción no válida. Se registrará solo baño por defecto.");
-                baño = true;
-                costoServicio = 10000;
+                servicioPremium = true;
+                costoServicio = 40000;
                 break;
         }
+        
 
-        System.out.print("\nFecha y Hora de la cita (Ej: 2026-09-01 10:00 AM): ");
-        String fechaHora = scanner.nextLine();
+        String tipoServicio = obtenerTipoServicio(servicioBasico, servicioAvanzado, servicioPremium);
+        double precioBase = costoServicio;
+        double total = precioBase + recargoTamano;
+        
 
-        ServicioEstetica servicio = new ServicioEstetica(mascota, tamano, baño, corte);
-        CitaEstetica cita = new CitaEstetica(fechaHora, servicio);
+       String sqlGuardarBD = "INSERT INTO servicios_esteticos (mascota_id, tipo_servicio, costo) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmtBD = conn.prepareStatement(sqlGuardarBD)) {
+            pstmtBD.setInt(1, idMascota);
+            pstmtBD.setString(2, tipoServicio);
+            pstmtBD.setDouble(3, total);
+            pstmtBD.executeUpdate();
+            System.out.println("\n Servicio registrado exitosamente en Supabase.");
+        } catch (SQLException e) {
+            System.err.println(" Error al registrar el servicio en la base de datos: " + e.getMessage());
+            return;
+        }
 
-        historial.add(cita);
-        guardarHistorial();
-
-        // Resumen detallado de precios antes de guardar
-        double precioBase = 20000;
-        double total = servicio.calcularPrecioTotal();
-
+    
+       
         System.out.println("\n=============================================");
         System.out.println("           DESGLOSE Y RESUMEN TOTAL          ");
         System.out.println("=============================================");
         System.out.println("• Mascota:            " + mascota);
-        System.out.println("• Tarifa Base:        $" + precioBase);
-        System.out.println("• Ajuste Tamaño (" + tamano + "): +$" + recargoTamano);
-        System.out.println("• Adicional Servicio: +$" + costoServicio);
+        System.out.println("• Tarifa Base:        $" + costoServicio);
+        System.out.println("• Ajuste Tamaño (" + tamano + "): $" + recargoTamano);
         System.out.println("---------------------------------------------");
         System.out.println("  VALOR TOTAL A PAGAR: $" + total);
         System.out.println("=============================================\n");
     }
 
-    private static void mostrarHistorial() {
-        System.out.println("\n=============================================");
-        System.out.println("     HISTORIAL DE SERVICIOS REGISTRADOS");
-        System.out.println("=============================================");
-        if (historial.isEmpty()) {
-            System.out.println("No hay servicios registrados aún.");
+    private static String obtenerTipoServicio(boolean esBasico, boolean esAvanzado, boolean esPremium) {
+        if (esBasico) {
+            return "Básico";
+        } else if (esAvanzado) {
+            return "Avanzado";
         } else {
-            for (int i = 0; i < historial.size(); i++) {
-                System.out.println((i + 1) + ". " + historial.get(i));
+            return "Premium";
+        }
+    }
+
+   private static void mostrarHistorialBD(Connection conn) {
+        System.out.println("\n=========================================================================");
+        System.out.println("           HISTORIAL DE SERVICIOS ESTÉTICOS (SUPABASE)                   ");
+        System.out.println("=========================================================================");
+
+        String sqlHistorial = "SELECT s.id, m.nombre AS mascota, c.nombre AS dueno, c.documento, " +
+                             "s.tipo_servicio, s.costo, s.fecha_servicio " +
+                             "FROM servicios_esteticos s " +
+                             "INNER JOIN mascotas m ON s.mascota_id = m.id " +
+                             "INNER JOIN clientes c ON m.cliente_documento = c.documento " +
+                             "ORDER BY s.id DESC";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sqlHistorial);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            boolean hayRegistros = false;
+            while (rs.next()) {
+                hayRegistros = true;
+                System.out.println("ID Cita: " + rs.getLong("id") +
+                        " | Mascota: " + rs.getString("mascota") +
+                        " | Dueño: " + rs.getString("dueno") + " (Doc: " + rs.getString("documento") + ")" +
+                        " | Servicio: " + rs.getString("tipo_servicio") +
+                        " | Costo: $" + rs.getDouble("costo") +
+                        " | Fecha: " + rs.getTimestamp("fecha_servicio"));
             }
-        }
-    }
 
-    private static void guardarHistorial() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_HISTORIAL))) {
-            oos.writeObject(historial);
-        } catch (IOException e) {
-            System.out.println("Error al guardar historial: " + e.getMessage());
-        }
-    }
+            if (!hayRegistros) {
+                System.out.println("No hay ningún servicio estético registrado en la base de datos.");
+            }
 
-    @SuppressWarnings("unchecked")
-    private static void cargarHistorial() {
-        File file = new File(ARCHIVO_HISTORIAL);
-        if (!file.exists()) return;
-
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            historial = (List<CitaEstetica>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error al cargar historial previo: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println(" Error al consultar el historial desde Supabase: " + e.getMessage());
         }
     }
 }
