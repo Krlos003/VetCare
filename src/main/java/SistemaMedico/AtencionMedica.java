@@ -1,4 +1,4 @@
-package com.vetcare.SistemaMedico;
+package SistemaMedico;
 
 import java.util.Date;
 
