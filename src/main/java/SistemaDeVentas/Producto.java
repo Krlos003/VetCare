@@ -16,7 +16,6 @@ public abstract class Producto {
         G("g"),
         LB("lb"),
         KG("kg"),
-
         UNIDAD("und");
 
         private final String simbolo;

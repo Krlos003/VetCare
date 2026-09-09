@@ -34,7 +34,7 @@ public class Main {
 
                 switch (opcion) {
                     case 1 : GestionClientesBD.mostrarMenu(conn, scanner); break;
-                    case 2 : SistemaVentas.mostrarMenu(); break;
+                    case 2 : SistemaVentas.mostrarMenu(conn); break;
                     case 3 : SistemaMedico.MenuMedico.mostrarMenuMedico(); break;
                     case 4 : MenuEstetica.mostrarMenu(conn, scanner); break;
                     case 5 : System.out.println("Saliendo del sistema..."); break;
