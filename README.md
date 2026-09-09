@@ -36,9 +36,9 @@ Desarrollamos VetCare con un enfoque moderno, colaborativo y muy técnico, aplic
 
 ### 👥 4. Equipo de Desarrollo
 
-| No.   | 🦸‍♂️ Nombre del Integrante          | 🆔 Curso  |
-| **1** |   Carlos Andres Forero Barajas     |   54412    |
-| **2** |        |       |
-| **3** |        |       |
-| **4** |        |       |
-
+| No. | 🦸‍♂️ Nombre del Integrante | 🆔 Curso |
+| :---: | :--- | :--- |
+| **1** | Carlos Andres Forero Barajas | 54412 |
+| **2** | | |
+| **3** | | |
+| **4** | | |
