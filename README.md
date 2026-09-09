@@ -42,10 +42,3 @@ Desarrollamos VetCare con un enfoque moderno, colaborativo y muy técnico, aplic
 | **3** |        |       |
 | **4** |        |       |
 
-
-
-
-
-| **2** | `[Nombre Integrante 2]` | `[Ficha / ID 2]` |
-| **3** | `[Nombre Integrante 3]` | `[Ficha / ID 3]` |
-| **4** | `[Nombre Integrante 4]` | `[Ficha / ID 4]` |
