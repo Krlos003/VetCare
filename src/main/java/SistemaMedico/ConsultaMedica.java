@@ -2,7 +2,8 @@ package SistemaMedico;
 
 import java.util.Date;
 
-public class AtencionMedica {
+
+public class ConsultaMedica {
 
     private int idServicio;
     private String descripcion;
@@ -11,7 +12,7 @@ public class AtencionMedica {
     private String nombreMascota;
     private String diagnostico;
 
-    public AtencionMedica(int idServicio, String descripcion, double costoAtencion, String nombreMascota,
+    public ConsultaMedica(int idServicio, String descripcion, double costoAtencion, String nombreMascota,
             String diagnostico) {
         this.idServicio = idServicio;
         this.descripcion = descripcion;

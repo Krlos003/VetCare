@@ -3,6 +3,7 @@ package SistemaDeVentas;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.sql.Connection;
 
 public class SistemaVentas {
 
@@ -17,7 +18,7 @@ public class SistemaVentas {
                 : texto;
     }
 
-    public static void mostrarMenu() {
+    public static void mostrarMenu(Connection conn) {
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
 
@@ -36,12 +37,9 @@ public class SistemaVentas {
 
                 switch (opcion) {
                     case 1:
-                        System.out.println("proceso registrar ventas");
-                        break;
-
+                        ProcesadorVentas.registrarVenta(conn, scanner);break;
                     case 2:
-                        System.out.println("proceso consultar ventas");
-                        break;
+                       ProcesadorVentas.consultarVentas(conn, scanner);break;
                     case 3:
                         System.out.println("REGISTRO DE PRODUCTO");
 
@@ -153,7 +151,7 @@ public class SistemaVentas {
                                 "N°", "NOMBRE", "CATEGORÍA", "PRECIO", "STOCK", "UBICACIÓN"));
                         System.out.println("-----------------------------------------------------------------------------------------");
 
-                        // Filas formateadas
+
                         for (int i = 0; i < listaBD.size(); i++) {
                             Producto p = listaBD.get(i);
                             String categoria = p.getClass().getSimpleName();
@@ -183,7 +181,5 @@ public class SistemaVentas {
                 scanner.next();
             }
         } while (opcion != 5);
-
-        scanner.close();
     }
 }

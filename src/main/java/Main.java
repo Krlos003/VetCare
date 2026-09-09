@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Scanner;
 import SistemaDeVentas.SistemaVentas;
 import SistemaRegistro.GestionClientesBD;
+import ServicioDeEstetica.MenuEstetica;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,9 +34,9 @@ public class Main {
 
                 switch (opcion) {
                     case 1 : GestionClientesBD.mostrarMenu(conn, scanner); break;
-                    case 2 : SistemaVentas.mostrarMenu(); break;
-                    case 3 : System.out.println("ACA LLAMAMOS LA CLASE DE ATENCION MEDICA"); break;
-                    case 4 : System.out.println("ACA LLAMAMOS LA CLASE DE PELUQUERIA"); break;
+                    case 2 : SistemaVentas.mostrarMenu(conn); break;
+                    case 3 : SistemaMedico.MenuMedico.mostrarMenuMedico(); break;
+                    case 4 : MenuEstetica.mostrarMenu(conn, scanner); break;
                     case 5 : System.out.println("Saliendo del sistema..."); break;
                     default : System.out.println("Opción inválida. Por favor, seleccione una opción válida."); break;
                 
@@ -48,5 +49,7 @@ public class Main {
 
         scanner.close();
         } 
+
+   
 
     }

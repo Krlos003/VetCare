@@ -6,13 +6,13 @@ public class Servicio implements Serializable {
     private static final long serialVersionUID = 1L;
     
     protected String tipoServicio;
-    protected double precioBase;
+    protected double total;
     protected String nombreMascota;
     protected String tamanoMascota;
 
-    public Servicio(String tipoServicio, double precioBase, String nombreMascota, String tamanoMascota) {
+    public Servicio(String tipoServicio, double total, String nombreMascota, String tamanoMascota) {
         this.tipoServicio = tipoServicio;
-        this.precioBase = precioBase;
+        this.total = total;
         this.nombreMascota = nombreMascota;
         this.tamanoMascota = tamanoMascota;
     }
@@ -24,7 +24,7 @@ public class Servicio implements Serializable {
         } else if (tamanoMascota.equalsIgnoreCase("Grande")) {
             recargo = 10000;
         }
-        return precioBase + recargo;
+        return total + recargo;
     }
 
     @Override
