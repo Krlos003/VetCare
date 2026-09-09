@@ -1,6 +1,5 @@
 package SistemaDeVentas;
 
-import SistemaRegistro.GestionClientesBD;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -184,7 +183,5 @@ public class SistemaVentas {
                 scanner.next();
             }
         } while (opcion != 5);
-
-        scanner.close();
     }
 }

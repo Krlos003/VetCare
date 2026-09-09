@@ -114,7 +114,6 @@ public class GestionClientesBD {
             return;
         }
 
-        // Ya no consultamos 'id', la clave principal es 'documento'
         String sql = "SELECT documento, nombre, telefono, email, direccion FROM clientes ORDER BY nombre ASC";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql);

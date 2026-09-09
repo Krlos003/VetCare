@@ -15,10 +15,11 @@ public class MenuEstetica {
         if (conn == null) {
             System.out.println("No se pudo establecer conexión con la base de datos.");
             return;
-        }   
+        }
 
-        
-        Scanner scanner = new Scanner(System.in);
+    }
+
+        public static void mostrarMenu(Connection conn, Scanner scanner) {
         int opcion;
 
         do {
@@ -60,7 +61,6 @@ public class MenuEstetica {
             System.out.println("Error al cerrar la conexión: " + e.getMessage());
         }
 
-        scanner.close();
     }
 
     private static void registrarCita(Connection conn, Scanner scanner) {
